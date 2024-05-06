@@ -1,0 +1,45 @@
+
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Main Page{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+    <thead class="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th scope="col" class="px-6 py-3">
+                Image 1
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Image 2
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Result
+            </th>
+            <th scope="col" class="px-6 py-3">
+                Recorded Date
+            </th>
+        </tr>
+    </thead>
+    {% for record in records %}
+    <tr class="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <td scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            <img src="{{ record['image1'] }}" width="200px" height="150px" alt="image1">
+        </td>
+        <td>
+            <img src="{{ record['image2'] }}" width="200px" height="150px" alt="image2">
+        </td>
+        <td class="px-6 py-4">
+            {{ record['result'] }}
+        </td>
+        <td class="px-6 py-4">
+            {{ record['created_at'] }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+
+

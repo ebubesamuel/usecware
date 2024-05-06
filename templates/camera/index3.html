@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Main Page{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <p>{{result}}</p>
+  <a href="{{url_for('index')}}"> Scan again</a>
+			
+  
+{% endblock %}
