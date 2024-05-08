@@ -113,72 +113,6 @@ def detect_face(frame):
         pass
     return frame
 
-
-
- 
-    # global net
-    # (h, w) = frame.shape[:2]
-    # blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
-    #     (300, 300), (104.0, 177.0, 123.0))   
-    # net.setInput(blob)
-    # detections = net.forward()
-    # confidence = detections[0, 0, 0, 2]
-
-    # if confidence < 0.5:            
-    #         return frame           
-
-    # box = detections[0, 0, 0, 3:7] * np.array([w, h, w, h])
-    # (startX, startY, endX, endY) = box.astype("int")
-    # try:
-    #     frame=frame[startY:endY, startX:endX]
-    #     (h, w) = frame.shape[:2]
-    #     r = 480 / float(h)
-    #     dim = ( int(w * r), 480)
-    #     frame=cv2.resize(frame,dim)
-    # except Exception as e:
-    #     pass
-    # return frame
-    
-    
-    #face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    # gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    # faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    # for (x, y, w, h) in faces:
-    #     cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-    #     roegion_of_interest_gray = gray[y:y+w, x:x+w]
-    #     roegion_of_interest_color = frame[y:y+h, x:x+w]
-    #     cv2.imwrite('shots/captured_image.jpg', roegion_of_interest_color)
-    # return frame
-
-# def detect_face(frame):
-#     #cap = cv2.VideoCapture(0)
-#     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-#     #eye_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_eye.xml')
-
-
-#     while True:
-#         #ret, frame = cap.read()
-        
-#         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-#         faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-#         for (x,y,w,h) in faces:
-#             cv2.rectangle(frame, (x, y), (x + w, y + h), (255,0,0), 5)
-#             roegion_of_interest_gray = gray[y:y+w, x:x+w]
-#             roegion_of_interest_color = frame[y:y+h, x:x+w]
-#             #eyes = eye_cascade.detectMultiScale(roegion_of_interest_gray, 1.3, 5)
-            
-#             #for (ex,ey,ew,eh) in eyes :
-#                 #cv2.rectangle(roegion_of_interest_color, (ex,ey), (ex + ew, ey + eh), (0,255,0), 5)
-#             if cv2.waitKey(1) & 0xFF == ord('s'):
-#                 cv2.imwrite('shots/captured_image.jpg', roegion_of_interest_color)
-#                 print('Captured image saved as captured_image.jpg')
-#                 break
-        
-        
-#         cv2.imshow('frame', frame)
-        
-#         if cv2.waitKey(1) == ord('q'):
-#             break
  
 
 def gen_frames():  # generate frame by frame from camera
@@ -193,18 +127,7 @@ def gen_frames():  # generate frame by frame from camera
                 x, y, width, height = 100, 100, 800, 500
 
                 # Draw the rectangle on the frame
-                cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)
-                #roi = frame[y:y+height, x:x+width]
-            # if(grey):
-            #     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-              
-            # if(capture):
-            #     capture=0
-            #     now = datetime.datetime.now()
-            #     p = os.path.sep.join(['shots', "shot_{}.png".format(str(now).replace(":",''))])
-            #     cv2.imwrite(p, frame)
-                
-            
+                cv2.rectangle(frame, (x, y), (x + width, y + height), (0, 255, 0), 2)            
             
             if(rec):
                 rec_frame=frame
@@ -283,16 +206,7 @@ def tasks():
             
             # global capture
             # capture=1
-        elif  request.form.get('grey') == 'Grey':
-            global grey
-            grey=not grey
-        elif  request.form.get('neg') == 'Negative':
-            global neg
-            neg=not neg
-        elif  request.form.get('face') == 'Face Only':
-            face=not face 
-            if(face):
-                time.sleep(4)   
+        
         elif  request.form.get('stop') == 'Stop/Start':
             
             if(switch==1):
@@ -565,5 +479,5 @@ if __name__ == '__main__':
     app.run(debug=True)
     
     
-camera.release()
-cv2.destroyAllWindows()     
+#camera.release()
+#cv2.destroyAllWindows()     
