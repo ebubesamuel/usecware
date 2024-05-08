@@ -50,14 +50,9 @@ app.config.from_mapping(
         DATABASE=os.path.join(app.instance_path, "db.sqlite"),
     )
 
-# if test_config is None:
-#     # load the instance config, if it exists, when not testing
-app.config.from_pyfile("config.py", silent=True)
-# else:
-#     # load the test config if passed in
-#     app.config.update(test_config)
 
-# ensure the instance folder exists
+app.config.from_pyfile("config.py", silent=True)
+
 try:
     os.makedirs(app.instance_path)
 except OSError:
@@ -74,21 +69,6 @@ def record(out):
 
 
 def detect_face(frame):
-    # try:
-    #     face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-    #     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    #     faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    #     for (x, y, w, h) in faces:
-    #         cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
-    #         #roegion_of_interest_gray = gray[y:y+w, x:x+w]
-    #         roegion_of_interest_color = frame[y:y+h, x:x+w]
-    #         #cv2.imwrite('shots/captured_image.jpg', roegion_of_interest_color)
-    # except Exception as e:
-    #     print(e)
-        
-    # return frame
- 
- 
     global net
     (h, w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(cv2.resize(frame, (300, 300)), 1.0,
@@ -104,11 +84,7 @@ def detect_face(frame):
     (startX, startY, endX, endY) = box.astype("int")
     try:
         cv2.rectangle(frame, (startX, startY), (endX, endY), (255,0,0), 5)
-        # frame=frame[startY:endY, startX:endX]
-        # (h, w) = frame.shape[:2]
-        # r = 480 / float(h)
-        # dim = ( int(w * r), 480)
-        # frame=cv2.resize(frame,dim)
+        
     except Exception as e:
         pass
     return frame
@@ -217,18 +193,7 @@ def tasks():
             else:
                 camera = cv2.VideoCapture(0)
                 switch=1
-        elif  request.form.get('rec') == 'Start/Stop Recording':
-            global rec, out
-            rec= not rec
-            if(rec):
-                now=datetime.datetime.now() 
-                fourcc = cv2.VideoWriter_fourcc(*'XVID')
-                out = cv2.VideoWriter('vid_{}.avi'.format(str(now).replace(":",'')), fourcc, 20.0, (640, 480))
-                #Start new thread for recording the video
-                thread = Thread(target = record, args=[out,])
-                thread.start()
-            elif(rec==False):
-                out.release()
+        
                           
                  
     elif request.method=='GET':
@@ -302,36 +267,8 @@ def IsFaceMatching(img1, img2):
         return True  # Log something to the console if it's a match
     else:
         return False  # Log something to the console if it's not a match
-    # cv2.rectangle(img_enyi, (face[3], face[0]), (face[1], face[2]), (255,0,255), 5)
-    # cv2.imshow('img_enyi', img_enyi)
-    # cv2.rectangle(test, (face2[3], face2[0]), (face2[1], face2[2]), (255,0,255), 5)
-    # cv2.imshow('test', test)
+    
 
-
-    #cv2.imshow('Enyi', img_enyi_rgb)
-    #cv2.waitKey(0)
-
-    #img_enyi = face_recognition
-
-
-
-#SEPERATED CODE
-#all routes had bp
-
-
-
-
-# def login_required(view):
-#     """View decorator that redirects anonymous users to the login page."""
-
-#     @functools.wraps(view)
-#     def wrapped_view(**kwargs):
-#         if g.user is None:
-#             return redirect(url_for("auth.login"))
-
-#         return view(**kwargs)
-
-#     return wrapped_view
 
 #before_app_request
 @app.before_request
@@ -458,12 +395,6 @@ def init_db():
         db.executescript(f.read().decode("utf8"))
 
 
-# @click.command("init-db")
-# def init_db_command():
-#     """Clear existing data and create new tables."""
-#     init_db()
-#     click.echo("Initialized the database.")
-
 
 def init_app(app):
     """Register database functions with the Flask app. This is called by
@@ -479,5 +410,4 @@ if __name__ == '__main__':
     app.run(debug=True)
     
     
-#camera.release()
-#cv2.destroyAllWindows()     
+#
